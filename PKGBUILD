@@ -2,20 +2,20 @@
 # Contributor: Thore Bödecker <me [at] foxxx0 [dot] de>
 # Contributor: Evangelos Foutras <evangelos@foutrelis.com>
 
-pkgname=php56-memcache
-_pkgbase="${pkgname#php56-}"
+pkgname=php5-memcache
+_pkgbase="${pkgname#php5-}"
 pkgver=3.0.8
 pkgrel=5
 _commit=fdbd46bbc6f53ed6e024521895e142cbfc9b3340
-pkgdesc="Memcache module for php56"
+pkgdesc="Memcache module for php5"
 arch=('i686' 'x86_64')
 url="https://pecl.php.net/package/memcache"
 license=('PHP')
 provides=("php-memcache=${pkgver}-${pkgrel}")
-depends=('php56>=5.6.17-3')
+depends=('php5>=5.6.17-3')
 makedepends=('git')
 checkdepends=('memcached')
-backup=('etc/php56/conf.d/memcache.ini')
+backup=('etc/php5/conf.d/memcache.ini')
 #source=(https://pecl.php.net/get/memcache-${pkgver}.tgz)
 source=("git+https://github.com/websupport-sk/pecl-memcache.git#commit=$_commit")
 sha512sums=('SKIP')
@@ -42,11 +42,11 @@ prepare() {
 build() {
     cd "${srcdir}/pecl-memcache"
 
-    phpize56
+    phpize5
     ./configure \
         --config-cache \
-        --sysconfdir=/etc/php56 \
-        --with-php-config=/usr/bin/php-config56 \
+        --sysconfdir=/etc/php5 \
+        --with-php-config=/usr/bin/php-config5 \
         --localstatedir=/var
     make
 }
@@ -74,5 +74,5 @@ package() {
 
     make INSTALL_ROOT="$pkgdir" install
     echo ';extension=memcache.so' >memcache.ini
-    install -Dm644 memcache.ini "$pkgdir/etc/php56/conf.d/memcache.ini"
+    install -Dm644 memcache.ini "$pkgdir/etc/php5/conf.d/memcache.ini"
 }
